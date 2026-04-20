@@ -1,0 +1,109 @@
+# ── Python / FastAPI ────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+wheels/
+*.whl
+pip-wheel-metadata/
+MANIFEST
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+nosetests.xml
+
+# mypy / type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Linting
+.ruff_cache/
+
+# ── Secrets & Environment Variables ────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets.json
+service_account.json
+
+# ── React / TypeScript / Node ───────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+dist/
+build/
+.next/
+out/
+.cache/
+.parcel-cache/
+.turbo/
+
+# TypeScript
+*.tsbuildinfo
+
+# ── Docker ──────────────────────────────────────────────────────────
+.docker/
+docker-compose.override.yml
+
+# ── Database ────────────────────────────────────────────────────────
+*.sqlite
+*.sqlite3
+*.db
+postgres-data/
+
+# ── IDE & Editor ────────────────────────────────────────────────────
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Logs ────────────────────────────────────────────────────────────
+logs/
+*.log
+*.log.*
+
+# ── OS ──────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+desktop.ini
+
+# ── Uploads / Generated Files ───────────────────────────────────────
+uploads/
+tmp/
+temp/
+*.tmp

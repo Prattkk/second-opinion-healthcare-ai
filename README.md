@@ -1,151 +1,170 @@
+<div align="center">
+
 # Second Opinion
 
-**AI that turns a patient's scattered medical records into a single, doctor-ready summary they can hand to any provider at any visit.**
+### AI-Assisted Physician Second Opinions for Everyone
 
-Built for the [COZAD New Venture Competition 2026](https://tec.illinois.edu/programs-and-events/cozad) at the University of Illinois Urbana-Champaign.
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=flat-square&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![FHIR R4](https://img.shields.io/badge/FHIR-R4-E84949?style=flat-square)
+![GenAI](https://img.shields.io/badge/GenAI-LLM-FF6B35?style=flat-square)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)
+
+</div>
 
 ---
 
 ## The Problem
 
-Patients managing chronic conditions, rare diseases, or multiple specialists carry years of fragmented medical history — scattered across hospital portals, PDFs, discharge papers, and prescription printouts.
+**12 million Americans are misdiagnosed every year.** Medical second opinions are proven to change or refine diagnoses in up to 88% of cases — yet they remain slow, expensive, and deeply inaccessible.
 
-At every new appointment, doctors spend the first 10 minutes reconstructing that history from scratch. This wastes clinical time and creates real risk: missed allergies, duplicate prescriptions, and incomplete diagnoses.
-
-A landmark review published in JMIR analyzed **2,100+ studies spanning 25 years** of health IT research. The consistent finding: medical interoperability — the ability to share and use patient data across systems — remains one of healthcare's most persistent failures.
-
-**53 million Americans** are managing complex health administration across multiple providers with no tool built for them.
+- Getting a specialist second opinion takes **weeks to months** of scheduling
+- Out-of-pocket costs range from **$300–$600** per consultation
+- Patients arrive at each new appointment carrying **fragmented records** scattered across portals, PDFs, and printouts — forcing physicians to reconstruct history from scratch
+- The result: wasted clinical time, missed context, and preventable harm
 
 ---
 
 ## The Solution
 
-Second Opinion gives patients a simple workflow:
+**Second Opinion** is a freemium SaaS platform that bridges the gap between patients and expert physician opinions — powered by AI.
 
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│   Upload     │     │     OCR      │     │  AI Structuring  │     │  Doctor-Ready     │
-│              │ ──► │              │ ──► │                  │ ──► │  Summary          │
-│ PDFs, scans, │     │ Extract text │     │ Organize into    │     │                  │
-│ photos       │     │ from any doc │     │ clinical timeline│     │ One-pager for     │
-│              │     │              │     │                  │     │ any provider      │
-└──────────────┘     └──────────────┘     └──────────────────┘     └──────────────────┘
-```
-
-**What the patient does:** Upload whatever they have — scanned discharge summaries, photos of prescription labels, PDFs from specialists.
-
-**What the AI does:** OCR reads the documents, extracts clinical data, and organizes everything into a single chronological timeline covering diagnoses, medications, allergies, and lab results.
-
-**What the doctor sees:** A clean, structured one-pager — ready to reference in the first 60 seconds of a visit. No portal access required. No technical setup.
+1. **Patients upload their medical records** (PDFs, scans, lab results, discharge summaries)
+2. **GenAI pre-processes and summarizes** the case into a structured, physician-ready brief
+3. **Our matching engine connects patients** with verified physicians for expert second opinions
+4. **Physicians review asynchronously** through a streamlined dashboard — no scheduling overhead
 
 ---
 
-## Target Users
+## Key Features
 
-**Primary:**
-- Chronic disease patients (diabetes, cancer, autoimmune, heart disease) managing care across 3+ providers
-- Rare disease patients who spend years repeating their history to new specialists
-- Caregivers coordinating records for a parent or dependent child
-
-**Future expansion:**
-- Independent clinics and telehealth platforms
-- Care coordinators and patient advocates
+| Feature | Description |
+|---|---|
+| **AI Case Summarization** | GenAI structures unstructured patient records into concise clinical briefs |
+| **FHIR R4 Integration** | Standards-compliant health data ingestion and interoperability |
+| **Physician Matching Engine** | Specialty-aware algorithm to match cases to the right experts |
+| **Freemium Patient Portal** | Self-serve upload and case management for patients |
+| **Physician Dashboard** | Async review workflow with case queue and response tools |
+| **HIPAA-Aware Architecture** | Designed with healthcare compliance requirements in mind |
+| **LinkedIn Outreach Automation** | Automated physician network recruitment pipeline |
 
 ---
 
-## How It's Different
+## Architecture
 
-| Feature | Patient Portals (MyChart) | Mere Medical (FHIR) | Record Services (Ciitizen) | **Second Opinion** |
-|---------|--------------------------|----------------------|----------------------------|-------------------|
-| Data source | Single hospital network | Connected FHIR portals | Human-curated collection | **Any document — paper, PDF, photo** |
-| Cross-system | No | Yes (if FHIR-enabled) | Yes (weeks to compile) | **Yes (instant)** |
-| Non-digital records | No | No | Partial | **Yes — OCR handles paper** |
-| Output | Raw records display | Timeline (structured) | Organized records | **Doctor-ready summary** |
-| Cost | Free (limited) | Free (open-source) | $500+ | **Free / low-cost** |
-| Speed | — | Instant (if connected) | Weeks | **Minutes** |
-| Patient-controlled | Partially | Yes | Yes | **Yes — patient owns all data** |
-
-**Key differentiator:** Most existing solutions require hospital portals or FHIR API connections. Second Opinion works with whatever the patient already has — including the paper discharge summary from 2019 sitting in a kitchen drawer.
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                          CLIENT LAYER                               │
+│                   React 18 / TypeScript / Tailwind                  │
+│              Patient Portal  │  Physician Dashboard                 │
+└────────────────────────┬────────────────────────────────────────────┘
+                         │  HTTPS / REST
+┌────────────────────────▼────────────────────────────────────────────┐
+│                         API GATEWAY                                 │
+│               Python 3.11+ / FastAPI / Pydantic                     │
+│            Auth (JWT/OAuth 2.0)  │  Rate Limiting  │  Routing       │
+└──────────┬──────────────────┬────────────────────┬──────────────────┘
+           │                  │                    │
+┌──────────▼──────┐  ┌────────▼────────┐  ┌───────▼──────────────────┐
+│  GenAI Service  │  │  FHIR Interface │  │      PostgreSQL DB        │
+│                 │  │                 │  │                          │
+│  LLM Summarize  │  │  HL7 FHIR R4    │  │  Users / Cases / Reviews │
+│  Case Structur. │  │  Record Ingest  │  │  Physician Profiles       │
+└─────────────────┘  └─────────────────┘  └──────────────────────────┘
+```
 
 ---
 
 ## Tech Stack
 
-| Component | Technology |
-|-----------|-----------|
-| Document Ingestion | OCR (Tesseract / Cloud Vision API) |
-| Clinical Structuring | LLM (GPT-4 / Claude) for entity extraction and summarization |
-| Data Model | Chronological clinical timeline (diagnoses, meds, allergies, labs) |
-| Language | Python |
-| Prototype | Google AI Studio (interactive AI assistant) |
-| Frontend (planned) | React / Next.js |
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 18, TypeScript, Tailwind CSS |
+| **Backend** | Python 3.11+, FastAPI, Pydantic v2 |
+| **AI / LLM** | GenAI LLM (case summarization & structuring) |
+| **Health Data** | HL7 FHIR R4 |
+| **Database** | PostgreSQL |
+| **Auth** | JWT / OAuth 2.0 |
+| **Deployment** | Docker, AWS |
 
 ---
 
-## Legal & Compliance
+## Getting Started
 
-Second Opinion operates in a **favorable regulatory position**:
+### Backend
 
-- **HIPAA:** As a patient-controlled tool, Second Opinion is not a covered entity. The patient uploads their own data at their own direction — no institutional data exchange required.
-- **21st Century Cures Act:** Legally requires hospitals to give patients access to their records, supporting the data availability that Second Opinion relies on.
-- **HTI-5 (ONC Rule):** Explicitly supports AI-enabled interoperability tools, validating the regulatory pathway for patient-facing AI health tools.
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate          # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
 
-**Design principles:**
-- Patient controls all sharing — they choose what to show the doctor
-- No raw documents stored longer than the processing window
-- Output includes disclaimer: *"AI-generated summary. Please verify with source records before making clinical decisions."*
+API docs available at `http://localhost:8000/docs`
 
----
+### Frontend
 
-## Validation
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-- Physician discovery interviews conducted via LinkedIn outreach across primary care, specialist, and emergency medicine physicians
-- Patient interviews confirming the pain of re-explaining history at every new visit
-- Competitive landscape research (Mere Medical, Ciitizen, Apple Health, MyChart)
-- Regulatory feasibility assessment (HIPAA, 21st Century Cures Act, HTI-5)
-
----
-
-## Project Documentation
-
-- [Pitch Deck](docs/pitch_deck_summary.md) — COZAD competition presentation summary
-- [Competitive Analysis](docs/competitive_analysis.md) — Mere Medical, Ciitizen, patient portals
-- [Physician Interview Guide](docs/physician_interview_guide.md) — Discovery interview framework
+App available at `http://localhost:5173`
 
 ---
 
-## Team
+## Business Model
 
-| Name | Role | Focus |
-|------|------|-------|
-| **Prateek Verma** | Co-founder | Business analytics, AI workflow design, competitive research, pitch strategy |
-| **Suyash Sawant** | Co-founder | Product development, technical architecture |
-
-Both are MS Business Analytics students at UIUC Gies College of Business.
-
----
-
-## Status
-
-- ✅ COZAD 2026 participant
-- ✅ Physician discovery interviews completed
-- ✅ Competitive landscape mapped
-- ✅ Regulatory feasibility validated
-- ✅ AI prototype built (Google AI Studio)
-- 🔄 Technical prototype in development
+| Tier | Price | Includes |
+|---|---|---|
+| **Free** | $0 | AI-powered medical record summarization |
+| **Standard** | $49 / case | AI summary + verified physician second opinion |
+| **Premium** | $149 / case | AI summary + specialist opinion + video consultation |
+| **Enterprise** | Custom | White-label API for health systems & insurers |
 
 ---
 
-## Disclaimer
+## Market Opportunity
 
-This is an **academic venture competition project** and is not a certified medical device. Second Opinion does not provide medical advice, diagnosis, or treatment. AI-generated summaries should always be verified against original source records by a qualified healthcare professional. No patient data was used in development — all testing uses synthetic documents.
+| | Size |
+|---|---|
+| **TAM** — Global medical second opinion market | $28B+ |
+| **SAM** — US digital health / telehealth second opinions | $4.2B |
+| **SOM** — Addressable early market (complex/chronic cases) | $120M |
+
+---
+
+## Project Artifacts
+
+The `/docs` directory contains supporting research and planning materials:
+
+- **Pitch deck summary** — investor narrative and business model overview
+- **Business plan** — full go-to-market, financial projections, and operating model
+- **Market research** — competitive landscape and customer discovery findings
+- **Compliance research** — HIPAA, FHIR, and healthcare regulatory landscape
+- **Outreach automation** — LinkedIn physician recruitment pipeline design
+
+---
+
+## Contributors
+
+| Name | Role | GitHub |
+|---|---|---|
+| **Prateek Verma** | Co-Founder | [@Prattkk](https://github.com/Prattkk) |
+| **Suyash Sawant** | Co-Founder | [@suyash0612](https://github.com/suyash0612) |
 
 ---
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+This project is licensed under the [MIT License](LICENSE) — see the LICENSE file for details.
 
-## Contact
+---
 
-**Prateek Verma** — [GitHub](https://github.com/Prattkk) · [Portfolio](https://quaint-area-0e3.notion.site) · vermaprateek1109@gmail.com
+<div align="center">
+Built with ❤️ by the Second Opinion team
+</div>
